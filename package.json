@@ -1,0 +1,18 @@
+{
+  "name": "kemz-assistant",
+  "version": "0.1.0",
+  "description": "Kemz Assistant — real-time AI conversation copilot for sales calls, internal meetings, mock interview practice, language practice, and self-study.",
+  "main": "electron/main.js",
+  "private": true,
+  "scripts": {
+    "start": "electron ."
+  },
+  "dependencies": {
+    "@deepgram/sdk": "^3.9.0",
+    "dotenv": "^16.4.5",
+    "pdf-parse": "^2.4.5"
+  },
+  "devDependencies": {
+    "electron": "^32.2.0"
+  }
+}

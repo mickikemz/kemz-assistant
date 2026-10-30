@@ -1,0 +1,87 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Kemz Assistant</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <section id="licenseScreen">
+      <h1>Kemz Assistant</h1>
+      <p class="muted">Enter your license key to activate.</p>
+      <input id="licenseInput" placeholder="KEMZ-XXXX-XXXX-XXXX" autocapitalize="characters" />
+      <button id="activateBtn">Activate</button>
+      <p id="licenseError" class="error"></p>
+      <p class="muted small">Don't have a key? Contact Kemz to get one.</p>
+    </section>
+
+    <div id="appScreen" class="hidden">
+      <header>
+        <div class="title">
+          <span class="dot" id="statusDot"></span>
+          Kemz Assistant
+        </div>
+        <div class="headerRight">
+          <span id="balance" class="balance"></span>
+          <select id="modeSelect">
+            <option value="meeting">Meeting / Sales Call</option>
+            <option value="mock-interview">Mock Interview</option>
+            <option value="language-practice">Language Practice (soon)</option>
+            <option value="self-study">Self-Study (soon)</option>
+          </select>
+        </div>
+      </header>
+
+      <div class="toolbar">
+        <button id="micToggleBtn" class="mic-btn" aria-pressed="false"></button>
+        <button id="micMuteBtn" class="mic-btn mute-btn" aria-pressed="false" disabled title="Mute your mic without ending the session"></button>
+        <button id="systemToggleBtn" class="mic-btn" aria-pressed="false"></button>
+      </div>
+      <div class="toolbar">
+        <button id="stopAllBtn" disabled>Stop All</button>
+        <button id="suggestBtn" disabled>Get Suggestions</button>
+        <button id="saveBtn" disabled>Save Session</button>
+        <button id="resetBtn" class="reset-btn" disabled title="Clear transcript and suggestions, keep listening">
+          <svg class="btn-icon" viewBox="0 0 256 256" aria-hidden="true"><path d="M224,128a96,96,0,0,1-94.71,96H128A95.38,95.38,0,0,1,62.1,197.8a8,8,0,0,1,11-11.63A80,80,0,1,0,71.43,71.39a3.07,3.07,0,0,1-.26.25L44.59,96H72a8,8,0,0,1,0,16H24a8,8,0,0,1-8-8V56a8,8,0,0,1,16,0V85.8L60.25,60A96,96,0,0,1,224,128Z"/></svg>
+          Reset
+        </button>
+      </div>
+
+      <div class="deviceRow">
+        <label for="systemAudioSelect">System audio device</label>
+        <select id="systemAudioSelect">
+          <option value="">None selected</option>
+        </select>
+      </div>
+      <p id="systemAudioHint" class="muted small"></p>
+
+      <div class="deviceRow hidden" id="resumeRow">
+        <label>Resume/CV</label>
+        <button id="resumeUploadBtn" class="reset-btn">Upload</button>
+        <button id="resumeClearBtn" class="reset-btn hidden" title="Remove uploaded resume">Remove</button>
+      </div>
+      <p id="resumeHint" class="muted small hidden"></p>
+
+      <main>
+        <section class="panel">
+          <h2>
+            <svg class="panel-icon" viewBox="0 0 256 256" aria-hidden="true"><path d="M56,96v64a8,8,0,0,1-16,0V96a8,8,0,0,1,16,0ZM88,24a8,8,0,0,0-8,8V224a8,8,0,0,0,16,0V32A8,8,0,0,0,88,24Zm40,32a8,8,0,0,0-8,8V192a8,8,0,0,0,16,0V64A8,8,0,0,0,128,56Zm40,32a8,8,0,0,0-8,8v64a8,8,0,0,0,16,0V96A8,8,0,0,0,168,88Zm40-16a8,8,0,0,0-8,8v96a8,8,0,0,0,16,0V80A8,8,0,0,0,208,72Z"/></svg>
+            Live Transcript
+          </h2>
+          <div id="transcript" class="scroll"></div>
+        </section>
+        <section class="panel panel-suggestions">
+          <h2>
+            <svg class="panel-icon" viewBox="0 0 256 256" aria-hidden="true"><path d="M197.58,129.06,146,110l-19-51.62a15.92,15.92,0,0,0-29.88,0L78,110l-51.62,19a15.92,15.92,0,0,0,0,29.88L78,178l19,51.62a15.92,15.92,0,0,0,29.88,0L146,178l51.62-19a15.92,15.92,0,0,0,0-29.88ZM137,164.22a8,8,0,0,0-4.74,4.74L112,223.85,91.78,169A8,8,0,0,0,87,164.22L32.15,144,87,123.78A8,8,0,0,0,91.78,119L112,64.15,132.22,119a8,8,0,0,0,4.74,4.74L191.85,144ZM144,40a8,8,0,0,1,8-8h16V16a8,8,0,0,1,16,0V32h16a8,8,0,0,1,0,16H184V64a8,8,0,0,1-16,0V48H152A8,8,0,0,1,144,40ZM248,88a8,8,0,0,1-8,8h-8v8a8,8,0,0,1-16,0V96h-8a8,8,0,0,1,0-16h8V72a8,8,0,0,1,16,0v8h8A8,8,0,0,1,248,88Z"/></svg>
+            AI Suggestions
+          </h2>
+          <div id="suggestions" class="scroll"></div>
+        </section>
+      </main>
+
+      <footer id="footer">Add your API keys to .env, then press Start.</footer>
+    </div>
+
+    <script src="index.js"></script>
+  </body>
+</html>

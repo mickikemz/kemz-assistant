@@ -1,0 +1,456 @@
+:root {
+  color-scheme: dark;
+  --bg: #14161c;
+  --panel: #1c1f28;
+  --border: #2a2e3a;
+  --text: #e8e9ee;
+  --muted: #8a8f9c;
+  --accent: #7c9eff;
+  --danger: #ff6b6b;
+  --ok: #4ade80;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, "Segoe UI", Inter, Arial, sans-serif;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.hidden {
+  display: none !important;
+}
+
+#licenseScreen {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 24px;
+  text-align: center;
+}
+
+#licenseScreen h1 {
+  margin: 0;
+  font-size: 18px;
+}
+
+#licenseScreen input {
+  width: 240px;
+  text-align: center;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.muted {
+  color: var(--muted);
+  font-size: 12px;
+  margin: 0;
+}
+
+.muted.small {
+  font-size: 11px;
+  margin-top: 12px;
+}
+
+.error {
+  color: var(--danger);
+  font-size: 12px;
+  min-height: 16px;
+  margin: 0;
+}
+
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border);
+  -webkit-app-region: drag;
+}
+
+header select,
+.headerRight {
+  -webkit-app-region: no-drag;
+}
+
+.headerRight {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.balance {
+  font-size: 11px;
+  color: var(--muted);
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 3px 8px;
+  white-space: nowrap;
+}
+
+.balance.low {
+  color: var(--danger);
+  border-color: var(--danger);
+}
+
+.title {
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--muted);
+}
+
+.dot.live {
+  background: var(--ok);
+  box-shadow: 0 0 6px var(--ok);
+}
+
+.dot.error {
+  background: var(--danger);
+}
+
+select,
+button,
+input {
+  background: var(--panel);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+input {
+  cursor: text;
+  font-family: inherit;
+}
+
+input:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+button:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+button:not(:disabled):hover {
+  border-color: var(--accent);
+}
+
+.mic-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 16px 6px 6px;
+  border-radius: 999px;
+  font-weight: 500;
+  transition: background 180ms ease, border-color 180ms ease, color 180ms ease;
+}
+
+.mic-btn .btn-icon-wrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.06);
+  flex-shrink: 0;
+}
+
+.btn-icon {
+  width: 16px;
+  height: 16px;
+  fill: currentColor;
+  position: relative;
+  z-index: 1;
+  flex-shrink: 0;
+}
+
+.reset-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.reset-btn:not(:disabled):hover {
+  border-color: var(--danger);
+  color: var(--danger);
+}
+
+.mic-btn .btn-label {
+  white-space: nowrap;
+}
+
+.mic-btn .pulse-ring {
+  position: absolute;
+  inset: -3px;
+  border-radius: 50%;
+  border: 2px solid currentColor;
+  opacity: 0.55;
+  animation: mic-pulse 1.6s ease-out infinite;
+}
+
+@keyframes mic-pulse {
+  0% {
+    transform: scale(0.85);
+    opacity: 0.55;
+  }
+  70% {
+    transform: scale(1.4);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1.4);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mic-btn .pulse-ring {
+    animation: none;
+  }
+}
+
+/* Mic (you) and system audio (them) use the same accent colors as the
+   transcript speaker labels below — the button you pressed and the lines
+   it produces read as one system. */
+#micToggleBtn.active {
+  background: color-mix(in srgb, var(--accent) 20%, var(--panel));
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+#systemToggleBtn.active {
+  background: color-mix(in srgb, var(--ok) 20%, var(--panel));
+  border-color: var(--ok);
+  color: var(--ok);
+}
+
+/* Muted is a caution state, not a "live" one — no pulse ring (set via
+   { pulse: false } in JS), and a warm/danger tint so it reads as "quiet,
+   watch out" rather than "actively capturing." */
+.mute-btn {
+  padding: 5px 14px 5px 5px;
+}
+
+.mute-btn .btn-icon-wrap {
+  width: 26px;
+  height: 26px;
+}
+
+#micMuteBtn.active {
+  background: color-mix(in srgb, var(--danger) 18%, var(--panel));
+  border-color: var(--danger);
+  color: var(--danger);
+}
+
+.toolbar {
+  display: flex;
+  gap: 8px;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border);
+}
+
+.deviceRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px 0;
+}
+
+.deviceRow label {
+  font-size: 11px;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.deviceRow select {
+  flex: 1;
+  min-width: 0;
+}
+
+#systemAudioHint {
+  padding: 4px 14px 0;
+  margin: 0;
+}
+
+main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 12px 14px;
+  overflow: hidden;
+}
+
+.panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px;
+}
+
+.panel h2 {
+  margin: 0 0 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+}
+
+.panel-icon {
+  width: 14px;
+  height: 14px;
+  fill: currentColor;
+  flex-shrink: 0;
+}
+
+.scroll {
+  flex: 1;
+  overflow-y: auto;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+#transcript {
+  white-space: pre-wrap;
+}
+
+.scroll .interim {
+  color: var(--muted);
+}
+
+.scroll .line {
+  display: block;
+}
+
+.scroll .speaker {
+  font-weight: 600;
+  margin-right: 4px;
+}
+
+.scroll .speaker-you {
+  color: var(--accent);
+}
+
+.scroll .speaker-them {
+  color: var(--ok);
+}
+
+.panel-suggestions {
+  background: linear-gradient(180deg, color-mix(in srgb, var(--accent) 6%, var(--panel)), var(--panel) 40%);
+}
+
+.suggestion-block {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
+  border-radius: 8px;
+  padding: 12px 14px;
+  margin-bottom: 10px;
+}
+
+.suggestion-head {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.suggestion-badge {
+  display: inline-flex;
+  color: var(--accent);
+}
+
+.suggestion-badge-icon {
+  width: 15px;
+  height: 15px;
+  fill: currentColor;
+}
+
+.suggestion-time {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+
+.suggestion-intro {
+  margin: 0 0 8px;
+  font-size: 13.5px;
+  line-height: 1.55;
+}
+
+.suggestion-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.suggestion-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+.suggestion-bullet-icon {
+  width: 14px;
+  height: 14px;
+  margin-top: 3px;
+  fill: var(--accent);
+  flex-shrink: 0;
+}
+
+.suggestion-list strong {
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.suggestion-intro strong {
+  color: var(--text);
+  font-weight: 700;
+}
+
+footer {
+  padding: 8px 14px;
+  font-size: 11px;
+  color: var(--muted);
+  border-top: 1px solid var(--border);
+}
